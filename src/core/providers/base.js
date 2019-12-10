@@ -6,6 +6,7 @@ const getConfig = () => ({
   headers: {
     Accept: 'application/json',
     'Accept-Language': 'pt-BR',
+    'Content-Type': 'text/plain',
   },
   paramsSerializer(params) {
     return qs.stringify(params, { arrayFormat: 'repeat' })
