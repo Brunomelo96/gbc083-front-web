@@ -47,6 +47,13 @@ export const generateRSAPairKeys = (callback) => {
   })
 }
 
+export const encryptRSA = (publicKey, toEncrypt) => {
+  const buffer = Buffer.from(toEncrypt, 'utf8')
+  const encrypted = crypto.publicEncrypt(publicKey, buffer)
+
+  return encrypted.toString('base64')
+}
+
 export const decryptRSA = (privateKey, toDecrypt) => {
   const buffer = Buffer.from(toDecrypt, 'base64')
   const decrypted = crypto.privateDecrypt({
@@ -56,9 +63,15 @@ export const decryptRSA = (privateKey, toDecrypt) => {
   buffer,
   )
 
-  console.log(decrypted.toString('utf8'), 'secret')
-
   return decrypted.toString('utf8')
+}
+
+export const encryptAES = (password, toEncrypt) => {
+  const cipher = crypto.createCipher('aes-256-cbc', password)
+  let encrypted = cipher.update(JSON.stringify(toEncrypt), 'utf8', 'hex')
+  encrypted += cipher.final('hex')
+
+  return encrypted
 }
 
 export const decryptAES = (password, toDecrypt) => {
@@ -67,4 +80,10 @@ export const decryptAES = (password, toDecrypt) => {
   decrypted += decipher.final('utf8')
 
   return decrypted
+}
+
+export const verifyIntegrity = (password, toHash) => {
+  const hash = crypto.createHmac('sha256', password).update(toHash).digest('hex')
+
+  return hash
 }

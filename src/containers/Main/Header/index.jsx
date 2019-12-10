@@ -32,6 +32,7 @@ const Header = (props) => {
   }
 
   const handleSignIn = async () => {
+    window.ENVIRONMENT.contentType = 'text/plain'
     await generateRSAPairKeys(setKeyPair)
   }
 

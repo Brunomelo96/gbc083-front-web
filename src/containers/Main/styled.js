@@ -27,3 +27,15 @@ export const ApplicationContainer = styled.div`
     height: 100%;
     overflow-Y: auto;
 `
+
+export const SideItem = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-weight: bold;
+
+  :hover {
+    cursor: pointer;
+  }
+`

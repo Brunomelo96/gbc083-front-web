@@ -1,20 +1,53 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { Route,  Switch, withRouter } from 'react-router-dom'
+import map from 'lodash/map'
+import routes from '../../routes/routes'
 import Header from './Header'
-import { Body, SideContainer, ApplicationContainer } from './styled'
-import Articles from '../Articles'
+import {
+  Body,
+  SideContainer,
+  ApplicationContainer,
+  SideItem,
+} from './styled'
 
-const Main = (props) => (
-  <>
-    <Header />
-    <Body>
-      <SideContainer />
-      <ApplicationContainer>
-        <Articles />
-      </ApplicationContainer>
-    </Body>
-  </>
-)
+const Main = (props) => {
+  const { history } = props
+
+  return (
+    <>
+      <Header />
+      <Body>
+        <SideContainer>
+          <SideItem
+            onClick={() => history.push('/')}
+          >
+            Home
+          </SideItem>
+          <SideItem
+            onClick={() => history.push('/create')}
+          >
+            Create Article
+          </SideItem>
+        </SideContainer>
+        <ApplicationContainer>
+          <Switch>
+            {
+              map(routes, (route) => (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  exact={route.exact}
+                  component={route.main}
+                />
+              ))
+            }
+          </Switch>
+        </ApplicationContainer>
+      </Body>
+    </>
+  )
+}
 
 Main.defaultProps = {
 }
@@ -22,4 +55,4 @@ Main.defaultProps = {
 Main.propTypes = {
 }
 
-export default Main
+export default withRouter(Main)
