@@ -28,20 +28,20 @@ const Articles = (props) => {
   }, [isSignedIn])
 
   const formatArticles = () => {
-    if (isSignedIn && typeof articles.data === 'string') {
+    if (isSignedIn && typeof articles === 'string') {
       const aesPassword = decryptRSA(privateKey, serverSecret)
-      const decryptedArticles = decryptAES(aesPassword, articles.data)
+      const decryptedArticles = decryptAES(aesPassword, articles)
       const formattedArticles = JSON.parse(decryptedArticles)
 
       // const authenticate = verifyRSA(serverPublicKey, articles.checksum)
-      const checksum = verifyIntegrity(decryptedArticles)
+      const checksum = verifyIntegrity(JSON.stringify(formattedArticles.data))
 
-      if (checksum === articles.checksum) {
+      if (checksum === formattedArticles.checksum) {
         toast.success('Authenticated!')
         toast.success('Healthy!')
       }
 
-      return formattedArticles
+      return formattedArticles.data
     }
 
     return articles
