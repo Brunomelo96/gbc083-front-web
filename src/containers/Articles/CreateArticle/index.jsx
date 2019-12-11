@@ -8,6 +8,7 @@ import {
   decryptRSA,
   signRSA
 } from '../../../core/utils/security'
+import Loading from '../../../components/Loading'
 import {
   Container,
   FormRow,
@@ -24,6 +25,7 @@ const CreateArticle = (props) => {
     createArticle,
     serverSecret,
     privateKey,
+    isLoading,
   } = props
   const [name, setName] = useState('')
   const [author, setAuthor] = useState('')
@@ -102,6 +104,7 @@ const CreateArticle = (props) => {
           Confirm
         </ConfirmButton>
       </ButtonsContainer>
+      <Loading isLoading={isLoading} />
     </Container>
   )
 }

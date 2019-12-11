@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -37,7 +38,7 @@ export const ConfirmButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${({ active }) => (active ? 'purple' : 'gray')};
+  background: ${({ active }) => (active ? '#674998' : 'gray')};
   border-radius: 5px;
   color: white;
   padding: 5px 10px;
@@ -49,6 +50,6 @@ export const ConfirmButton = styled.div`
   }
 
   :active {
-    background: black;
+    background: purple;
   }
 `

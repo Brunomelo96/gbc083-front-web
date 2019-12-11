@@ -19,6 +19,7 @@ export const SideContainer = styled.div`
 `
 
 export const ApplicationContainer = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;

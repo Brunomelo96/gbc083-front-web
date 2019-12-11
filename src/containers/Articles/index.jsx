@@ -7,6 +7,7 @@ import {
   decryptRSA
 } from '../../core/utils/security'
 import ArticlesList from '../../components/ArticlesList'
+import Loading from '../../components/Loading'
 
 const Articles = (props) => {
   const {
@@ -15,6 +16,7 @@ const Articles = (props) => {
     isSignedIn,
     serverSecret,
     privateKey,
+    isLoading,
   } = props
 
   useEffect(() => {
@@ -40,6 +42,7 @@ const Articles = (props) => {
       <ArticlesList
         articles={formattedArticles}
       />
+      <Loading isLoading={isLoading} />
     </>
   )
 }
@@ -48,6 +51,6 @@ const mapActions = {
   readAll: actions.readAll,
 }
 
-const mapProps = ({ articles, main }) => ({ ...articles, ...main })
+const mapProps = ({ articles, main }) => ({ ...main, ...articles })
 
 export default connect(mapProps, mapActions)(Articles)

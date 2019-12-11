@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
+import { connect } from 'react-redux'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import map from 'lodash/map'
 import routes from '../../routes/routes'
 import Header from './Header'
+import Loading from '../../components/Loading'
 import {
   Body,
   SideContainer,
@@ -12,7 +14,7 @@ import {
 } from './styled'
 
 const Main = (props) => {
-  const { history } = props
+  const { history, isLoading } = props
 
   return (
     <>
@@ -43,16 +45,13 @@ const Main = (props) => {
               ))
             }
           </Switch>
+          <Loading isLoading={isLoading} />
         </ApplicationContainer>
       </Body>
     </>
   )
 }
 
-Main.defaultProps = {
-}
+const mapProps = ({ main }) => main
 
-Main.propTypes = {
-}
-
-export default withRouter(Main)
+export default connect(mapProps, null)(withRouter(Main))
