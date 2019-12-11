@@ -1,8 +1,13 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import isEmpty from 'lodash/isEmpty'
 import { connect } from 'react-redux'
-import { verifyIntegrity, decryptRSA, decryptAES } from '../../../core/utils/security'
+import {
+  verifyIntegrity,
+  encryptAES,
+  decryptRSA,
+  signRSA
+} from '../../../core/utils/security'
 import {
   Container,
   FormRow,
@@ -18,7 +23,7 @@ const CreateArticle = (props) => {
     isSignedIn,
     createArticle,
     serverSecret,
-    privateKey
+    privateKey,
   } = props
   const [name, setName] = useState('')
   const [author, setAuthor] = useState('')
@@ -29,21 +34,23 @@ const CreateArticle = (props) => {
   const onSubmit = () => {
     const article = {
       name,
-      author,
       description,
+      author,
     }
 
     if (isSignedIn) {
       const aesPassword = decryptRSA(privateKey, serverSecret)
       const toHash = JSON.stringify(article)
-      const checksum = verifyIntegrity(aesPassword, toHash)
-
+      const checksum = verifyIntegrity(toHash)
+      const signedChecksum = signRSA(privateKey, checksum)
       const hashArticle = {
         ...article,
-        checksum,
+        checksum: signedChecksum,
       }
 
-      createArticle(hashArticle)
+      const encryptedArticle = encryptAES(aesPassword, hashArticle)
+
+      createArticle(encryptedArticle)
     } else {
       createArticle(article)
     }

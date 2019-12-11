@@ -8,7 +8,7 @@ import {
   ContentContainer
 } from './styled'
 
-export const ArticlePreview = (props) => {
+const ArticlePreview = (props) => {
   const { article } = props
   const {
     name, author, description,

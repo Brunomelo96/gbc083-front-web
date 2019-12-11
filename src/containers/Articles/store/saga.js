@@ -1,6 +1,7 @@
 import {
   all, takeLatest, call, put
 } from 'redux-saga/effects'
+import { toast } from 'react-toastify'
 import ArticlesProvider from '../../../core/providers/Articles'
 import { types as ArticleTypes, actions as ArticlesActions } from './actions'
 
@@ -19,9 +20,15 @@ export function* readAll() {
 export function* createArticle({ article }) {
   try {
     yield put(ArticlesActions.setLoading(true))
-    yield call(ArticlesProvider.createArticle, article)
+    const createResponse = yield call(ArticlesProvider.createArticle, article)
     const response = yield call(ArticlesProvider.readAll)
     yield put(ArticlesActions.setArticles(response))
+    if (createResponse.authenticated) {
+      toast.success('Authenticated!')
+    }
+    if (createResponse.healthy) {
+      toast.success('Healthy!')
+    }
   } catch (error) {
     console.log(error)
   } finally {

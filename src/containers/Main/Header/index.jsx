@@ -1,10 +1,9 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { generateRSAPairKeys, decryptRSA } from '../../../core/utils/security'
+import { generateRSAPairKeys } from '../../../core/utils/security'
 import { actions } from '../store/actions'
 import { Container, Title, SignInContainer } from './styled'
-const crypto = require('crypto')
 
 
 const Header = (props) => {
@@ -12,14 +11,10 @@ const Header = (props) => {
     setPrivateKey,
     setPublicKey,
     signIn,
-    serverPublicKey,
-    serverSecret,
-    publicKey,
-    privateKey,
-    privateBuffer,
-    publicBuffer,
     setPrivateBuffer,
     setPublicBuffer,
+    isSignedIn,
+    signOut,
   } = props
 
   const setKeyPair = (keys) => {
@@ -32,16 +27,31 @@ const Header = (props) => {
   }
 
   const handleSignIn = async () => {
-    window.ENVIRONMENT.contentType = 'text/plain'
     await generateRSAPairKeys(setKeyPair)
+    window.ENVIRONMENT.contentType = 'text/plain'
+  }
+
+  const handleSignOut = () => {
+    signOut()
+    window.ENVIRONMENT.contentType = 'application/json'
   }
 
   return (
     <Container>
       <Title>  GBC083 </Title>
-      <SignInContainer onClick={handleSignIn}>
-        Sign In
-      </SignInContainer>
+      {
+        !isSignedIn
+          ? (
+            <SignInContainer onClick={handleSignIn}>
+              Sign In
+            </SignInContainer>
+          )
+          : (
+            <SignInContainer onClick={handleSignOut}>
+              Sign Out
+            </SignInContainer>
+          )
+      }
     </Container>
   )
 }
@@ -58,6 +68,7 @@ const mapActions = {
   signIn: actions.signIn,
   setPrivateBuffer: actions.setPrivateBuffer,
   setPublicBuffer: actions.setPublicBuffer,
+  signOut: actions.signOut,
 }
 
 const mapProps = ({ main }) => main

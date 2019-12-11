@@ -1,6 +1,6 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Route,  Switch, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import map from 'lodash/map'
 import routes from '../../routes/routes'
 import Header from './Header'
@@ -8,7 +8,7 @@ import {
   Body,
   SideContainer,
   ApplicationContainer,
-  SideItem,
+  SideItem
 } from './styled'
 
 const Main = (props) => {

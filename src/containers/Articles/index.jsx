@@ -1,8 +1,11 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { actions } from './store/actions'
-import { decryptAES, decryptRSA } from '../../core/utils/security'
+import {
+  decryptAES,
+  decryptRSA
+} from '../../core/utils/security'
 import ArticlesList from '../../components/ArticlesList'
 
 const Articles = (props) => {
@@ -19,7 +22,7 @@ const Articles = (props) => {
   }, [isSignedIn])
 
   const formatArticles = () => {
-    if (isSignedIn) {
+    if (isSignedIn && typeof articles === 'string') {
       const aesPassword = decryptRSA(privateKey, serverSecret)
       const decryptedArticles = decryptAES(aesPassword, articles)
       const formattedArticles = JSON.parse(decryptedArticles)
@@ -39,12 +42,6 @@ const Articles = (props) => {
       />
     </>
   )
-}
-
-Articles.defaultProps = {
-}
-
-Articles.propTypes = {
 }
 
 const mapActions = {

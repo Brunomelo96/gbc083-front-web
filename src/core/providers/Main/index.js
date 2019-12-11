@@ -1,11 +1,14 @@
 import Api from '../api'
 
-const articlesURL = '/signin'
+const signIn = '/signin'
+const signOutURL = '/signout'
 
 const Articles = {
   signIn(params) {
-    console.log(params, 'paramss')
-    return Api.request(articlesURL, { data: params, method: 'POST' })
+    return Api.request(signIn, { data: params, method: 'POST' })
+  },
+  signOut() {
+    return Api.request(signOutURL, { method: 'POST' })
   },
 }
 

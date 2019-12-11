@@ -8,6 +8,7 @@ export const types = {
   SET_PUBLIC_BUFFER: 'MAIN/SET_PUBLIC_BUFFER',
   SET_PRIVATE_BUFFER: 'MAIN/SET_PRIVATE_BUFFER',
   SET_SIGNED_IN: 'MAIN/SET_SIGNED_IN',
+  SIGN_OUT: 'MAIN/SIGN_OUT',
 }
 
 export const actions = {
@@ -20,4 +21,5 @@ export const actions = {
   setPublicBuffer: (publicBuffer) => ({ type: types.SET_PUBLIC_BUFFER, publicBuffer }),
   setPrivateBuffer: (privateBuffer) => ({ type: types.SET_PRIVATE_BUFFER, privateBuffer }),
   setSignedIn: (isSignedIn) => ({ type: types.SET_SIGNED_IN, isSignedIn }),
+  signOut: () => ({ type: types.SIGN_OUT }),
 }

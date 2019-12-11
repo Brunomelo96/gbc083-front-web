@@ -1,9 +1,7 @@
 /* eslint-disable no-param-reassign */
 const crypto = require('crypto')
 
-export const ab2str = (buf) => {
-  return String.fromCharCode.apply(null, new Uint8Array(buf))
-}
+export const ab2str = (buf) => String.fromCharCode.apply(null, new Uint8Array(buf))
 
 export const toPem = (exported, type) => {
   const exportedAsString = ab2str(exported)
@@ -66,6 +64,25 @@ export const decryptRSA = (privateKey, toDecrypt) => {
   return decrypted.toString('utf8')
 }
 
+export const signRSA = (privateKey, toSign) => {
+  const buffer = Buffer.from(toSign, 'utf8')
+  const signed = crypto.privateEncrypt(privateKey, buffer)
+
+  return signed.toString('base64')
+}
+
+export const verifyRSA = (publicKey, toVerify) => {
+  const buffer = Buffer.from(toVerify, 'base64')
+  const decrypted = crypto.publicDecrypt({
+    key: publicKey,
+    passphrase: '',
+  },
+  buffer,
+  )
+
+  return decrypted.toString('uft8')
+}
+
 export const encryptAES = (password, toEncrypt) => {
   const cipher = crypto.createCipher('aes-256-cbc', password)
   let encrypted = cipher.update(JSON.stringify(toEncrypt), 'utf8', 'hex')
@@ -82,8 +99,8 @@ export const decryptAES = (password, toDecrypt) => {
   return decrypted
 }
 
-export const verifyIntegrity = (password, toHash) => {
-  const hash = crypto.createHmac('sha256', password).update(toHash).digest('hex')
+export const verifyIntegrity = (toHash) => {
+  const hash = crypto.createHash('sha1').update(toHash).digest('hex')
 
   return hash
 }

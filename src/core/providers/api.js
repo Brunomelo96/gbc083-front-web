@@ -1,6 +1,6 @@
 import api from './base'
 
-const apiURL = 'https://gbc083.herokuapp.com/api/'
+const apiURL = 'https://gbc083.herokuapp.com/api'
 export const baseApi = api(apiURL)
 
 const Api = {
