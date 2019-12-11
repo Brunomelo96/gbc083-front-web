@@ -33,7 +33,6 @@ const Articles = (props) => {
       const decryptedArticles = decryptAES(aesPassword, articles)
       const formattedArticles = JSON.parse(decryptedArticles)
 
-      // const authenticate = verifyRSA(serverPublicKey, articles.checksum)
       const checksum = verifyIntegrity(JSON.stringify(formattedArticles.data))
 
       if (checksum === formattedArticles.checksum) {
@@ -44,7 +43,7 @@ const Articles = (props) => {
       return formattedArticles.data
     }
 
-    return articles
+    return articles.data
   }
 
   const formattedArticles = formatArticles()
