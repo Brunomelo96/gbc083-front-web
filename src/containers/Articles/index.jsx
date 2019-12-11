@@ -1,10 +1,13 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { toast } from 'react-toastify'
 import { actions } from './store/actions'
 import {
   decryptAES,
-  decryptRSA
+  decryptRSA,
+  verifyIntegrity,
+  verifyRSA
 } from '../../core/utils/security'
 import ArticlesList from '../../components/ArticlesList'
 import Loading from '../../components/Loading'
@@ -17,6 +20,7 @@ const Articles = (props) => {
     serverSecret,
     privateKey,
     isLoading,
+    serverPublicKey,
   } = props
 
   useEffect(() => {
@@ -24,10 +28,18 @@ const Articles = (props) => {
   }, [isSignedIn])
 
   const formatArticles = () => {
-    if (isSignedIn && typeof articles === 'string') {
+    if (isSignedIn && typeof articles.data === 'string') {
       const aesPassword = decryptRSA(privateKey, serverSecret)
-      const decryptedArticles = decryptAES(aesPassword, articles)
+      const decryptedArticles = decryptAES(aesPassword, articles.data)
       const formattedArticles = JSON.parse(decryptedArticles)
+
+      // const authenticate = verifyRSA(serverPublicKey, articles.checksum)
+      const checksum = verifyIntegrity(decryptedArticles)
+
+      if (checksum === articles.checksum) {
+        toast.success('Authenticated!')
+        toast.success('Healthy!')
+      }
 
       return formattedArticles
     }
